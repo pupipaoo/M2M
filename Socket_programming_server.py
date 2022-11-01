@@ -18,7 +18,7 @@ while True:    #用迴圈才可以一直收listen那邊排隊的人，不過因�
     print("Connection from: " + str(addr))
 
     while True:
-        indata = conn.recv(1024)
+        indata = conn.recv(1024)  #緩衝區，代表可讀多少資料
         if len(indata) == 0 or indata.decode() =='quit' : # connection closed #也就是沒人傳訊或是收到quit就段
             conn.close()
             print('client closed connection.')
