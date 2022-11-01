@@ -13,8 +13,8 @@ s.listen(5)   #設定排隊常度
 print('server start at: %s:%s' % (HOST, PORT))
 print('wait for connection...')
 
-while True:    #用迴圈才可以一直收listen那邊排隊的人
-    conn, addr = s.accept()  #建一個專門在listen排隊,後來下來的client通訊的socket
+while True:    #用迴圈才可以一直收listen那邊排隊的人，不過因為內層的while迴圈寫成只能接受一人accept，導致正在accept中德化就不能與下一人accept，一次只能跟一格人做accept
+    conn, addr = s.accept()  #建一個專門抓取在listen排隊的client通訊的socket
     print("Connection from: " + str(addr))
 
     while True:
