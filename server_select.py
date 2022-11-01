@@ -54,11 +54,11 @@ while 1:  #也就是While true
                     print(str(addr)+':'+ data.decode())
 
             # client disconnected, so remove from socket list
-            except:
+            except:   #讀不到資料時代表錯誤
   
                 print("Client (%s, %s) is offline" % addr)
-                sock.close()
-                CONNECTION_LIST.remove(sock)
+                sock.close()    #關此SOCKET
+                CONNECTION_LIST.remove(sock)  #connect從清單移除
                 continue
     
 server_socket.close()
