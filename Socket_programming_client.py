@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import socket
 
-HOST = '10.0.6.111' #自家IP  #以spider開啟，server.py的ip輸入自己ip並且以執行檔方式開啟即可在client輸入
+HOST = '10.0.6.111' #自家IP  #以spider開啟，server.py的ip輸入自己ip並且以執行檔方式開啟即可以一台電腦，用client輸入
 PORT = 7000
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
