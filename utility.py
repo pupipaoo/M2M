@@ -10,7 +10,7 @@ def get_ip():
 
 
 def get_time():
-    """得到發送時間"""
+    """得到發送時間"""  ##
     now = datetime.datetime.now()
     send_time = now.strftime("%Y-%m-%d %H:%M:%S")
     return send_time
