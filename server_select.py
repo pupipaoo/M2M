@@ -9,7 +9,7 @@ def handler(a,b=None):
     
 def install_handler():
     if sys.platform == "win32":
-        import win32api
+        import win32api   #python擴充套件
         win32api.SetConsoleCtrlHandler(handler, True)
  
 install_handler()
@@ -31,19 +31,19 @@ print("Chat server started on port " + str(PORT))
 
 while 1:  #也就是While true
     # Get the list sockets which are ready to be read through select
-    read_sockets,write_sockets,error_sockets = select.select(CONNECTION_LIST,[],[]) #第一格select得參數代表請求系統監控可以讀取德socket，否則遇到不能讀會卡;第二是可寫;第三是錯誤
+    read_sockets,write_sockets,error_sockets = select.select(CONNECTION_LIST,[],[]) #第一格select得參數代表請求系統監控可以讀取德socket清單，包含主要socket用來連接其他client及連上client厚接收訊息德socket，否則遇到不能讀會卡;第二是可寫;第三是錯誤
     #print('accpet return ')
-    for sock in read_sockets:  
+    for sock in read_sockets:  #從監控德read活動中有可讀socket，就把socket丟進for迴圈
         
         #New connection
         if sock == server_socket:   #當sever_socket可以讀取時，代表有cliemt連近來，所以要呼叫accept去抓人下來
             # Handle the case in which there is a new connection recieved through server_socket
-            sockfd, addr = server_socket.accept()
+            sockfd, addr = server_socket.accept()   #當serversocket有活動時，紀錄client端的socket
             CONNECTION_LIST.append(sockfd)   #因為有新的可讀取得socket，把cliemt的socket加進去，已讓最上層while輝圈可讀取這格client的訊息近來
             print("Client (%s, %s) connected" % addr)
             
         #Some incoming message from a client
-        else:
+        else:  #當不是serversocket活動時，就是client在做讀
             # Data recieved from client, process it
             try:
                 #In Windows, sometimes when a TCP program closes abruptly,
