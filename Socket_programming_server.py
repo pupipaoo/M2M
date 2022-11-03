@@ -5,8 +5,8 @@ HOST = '10.0.6.111'#目標ip
 PORT = 7000
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)   #REUSEADDR是為了因應系統會保留專用SOCKET一段時間即便CLIENT已離開，會導致後面從LISTEN排隊人下不來
-
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)   #REUSEADDR是為了因應TCP系統會保留專用SOCKET(或稱PORT)一段時間即便CLIENT已離開，會導致後面從LISTEN排隊人下不來，故使用
+                                                                                                                                #REUSE讓別人重複用那個PORT
 s.bind((HOST, PORT))
 s.listen(5)   #設定排隊常度
 
