@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import socket
 import sys
-import threading
+import threading    #可有能做併行功能的執行緒
 import utility
 
 
@@ -75,9 +75,9 @@ def send_msg():
 
 
 
-threads = [threading.Thread(target=recv_msg), threading.Thread(target=send_msg)]
-for t in threads:
-    t.start()
+threads = [threading.Thread(target=recv_msg), threading.Thread(target=send_msg)]    #代表有2個thread，target是指定可併行得function，這兩個剛好都是無窮迴圈，且剛好不會互相衝突可個別跑
+for t in threads:   
+    t.start()   #啟動thread
     
     
     #t.join()
