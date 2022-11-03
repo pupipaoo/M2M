@@ -18,7 +18,7 @@ def install_handler():
         import win32api
         win32api.SetConsoleCtrlHandler(close_socket, True)
     elif 'linux' in sys.platform :
-        print('you may install crtl-C signal handler for Linux')        
+        print('you may install crtl-C signal handler for Linux')   #在Linux中，crtl-C是中段     
 
 install_handler()
 #--------------------------------------------
@@ -80,6 +80,6 @@ for t in threads:
     t.start()   #啟動thread
     
     
-    #t.join()
+    #t.join() #這東西在有thread時照理來說應該要有，但不知為啥用spider跑時卻不需要這段
    
 
