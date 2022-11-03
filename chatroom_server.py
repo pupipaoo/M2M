@@ -29,13 +29,13 @@ install_handler()
 RECV_BUFFER = 4096 # Advisable to keep it as an exponent of 2
 PORT = 7000
     
-N_user=0
+N_user=0 #設定變數USER起點
 CONNECTION_LIST = []	# list of socket clients
-MessageQueue={}
-ChatBoard=[]
+MessageQueue={} #設定mesque的空dic
+ChatBoard=[] #設定chatboard為空list
 
 
-def handle_client_exit(sock):
+def handle_client_exit(sock): #當cliemt離開時
     global N_user
     N_user-=1
     print("Client {} is offline ({} users in the chatroom)".format(MessageQueue[sock]['sock_info'],N_user))
@@ -79,9 +79,9 @@ while 1:
             
             sockfd, addr = server_socket.accept()
             CONNECTION_LIST.append(sockfd)
-            N_user+=1
-            MessageQueue[sockfd]={'sock_info':addr,'buf':[]} #參數addr是從第80行得事件addr抓下來
-            print("{}connected (totoal user:{})".format(addr,N_user))
+            N_user+=1   #有人連進來時，USER就+1
+            MessageQueue[sockfd]={'sock_info':addr,'buf':[]}  #設定MESQUE的dic  #把80行的sockfd設為key，當有client進來時就去查，參數addr就從第80行得事件addr(這是cliemt的ip/port)抓下來,不過buffer仍設為空
+            print("{}connected (totoal user:{})".format(addr,N_user))                         #成前，每次有新client近來，就為dic加ip port
        
            
             
@@ -102,7 +102,7 @@ while 1:
                         new_msg='{}:{}'.format(MessageQueue[sock]['sock_info'],new_msg.decode()) 
                    
                     print(new_msg)
-                    ChatBoard.append(new_msg)
+                    ChatBoard.append(new_msg) #把訊息加到chatboard裡去
 
             # client disconnected, so remove from socket list
             except:
@@ -112,10 +112,10 @@ while 1:
             
     if ChatBoard:
        
-        next_msg = ChatBoard.pop()
+        next_msg = ChatBoard.pop()  #當chatboard的陣列中有訊息時
       
-        for sock in write_sockets:
-            if sock in MessageQueue:
+        for sock in write_sockets: #在可寫得port中
+            if sock in MessageQueue:  #再判斷port是否在messque中
     
                 try:
                     #print('send',next_msg.decode())  
