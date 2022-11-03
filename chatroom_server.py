@@ -80,7 +80,7 @@ while 1:
             sockfd, addr = server_socket.accept()
             CONNECTION_LIST.append(sockfd)
             N_user+=1
-            MessageQueue[sockfd]={'sock_info':addr,'buf':[]}
+            MessageQueue[sockfd]={'sock_info':addr,'buf':[]} #參數addr是從第80行得事件addr抓下來
             print("{}connected (totoal user:{})".format(addr,N_user))
        
            
