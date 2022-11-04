@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+
+
+<button onclick="light_on()">Turn on the light</button>
+
+<img id="myImage" src="img/pic_bulboff.gif" style="width:100px">
+<button onclick="light_off()">Turn off the light</button>
+<div>
+<img id="myImageBTN1" src="img/pressed.png" style="width:100px">
+<h4>BTN1: <span id="BTN1" style="font-size: 3rem;">1</span></h4>
+<h4>BTN2: <span id="BTN2" style="font-size: 3rem;">1</span></h4>
+</div>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+
+  <script type="text/javascript">
+    
+   function light_on(){
+   
+     document.getElementById('myImage').src='img/pic_bulbon.gif'
+     set_gpio(27,1)
+   
+   }
+   
+   
+  function light_off(){
+   
+     document.getElementById('myImage').src='img/pic_bulboff.gif'
+     set_gpio(27,0)
+   
+   }
+   
+function set_gpio(gpio,value) {
+
+$.ajax({
+  url: "http://169.254.96.136:3002/gpio?gpio="+gpio+"&value="+value,
+  method: "GET",
+  success: function(Jdata) {
+	       
+  }, 
+  error: function() {
+    console.log("AJAX set_gpio ERROR!!!");
+  }
+});
+}
+
+setInterval(update_info, 500);
+
+function update_info() {
+
+$.ajax({
+  url: "http://169.254.96.136:3002/sensor/temp",
+  method: "GET",
+  success: function(Jdata) {
+	  console.log(Jdata);  
+      $('#BTN1').html(Jdata.Sensor.BTN1);
+	  $('#BTN2').html(Jdata.Sensor.BTN2);	 
+  
+     if (Jdata.Sensor.BTN1=='1')
+	    document.getElementById('myImageBTN1').src='img/unpressed.png'
+	 else 
+	   document.getElementById('myImageBTN1').src='img/pressed.png'
+
+	  
+  }, 
+  error: function() {
+     console.log("AJAX update_info ERROR!!!");
+  }
+});
+ 
+}
+
+
+
+
+
+
+  </script>
+
+</body>
+</html>
+
