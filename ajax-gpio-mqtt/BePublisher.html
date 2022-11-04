@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    
+function light_on(){
+
+ document.getElementById('myImage').src='img/pic_bulbon.gif' //document是指抓外部文件?
+ publish_message('sensor/light','on') //發佈到sensor/light，內容為on
+ //set_gpio(27,1)
+}
+
+
+function light_off(){
+
+ document.getElementById('myImage').src='img/pic_bulboff.gif'
+ publish_message('sensor/light','off')
+ //set_gpio(27,0)
+}
+   
+function set_gpio(gpio,value) {
+
+$.ajax({			//ajax方式的語法
+  url: "http://169.254.96.136:3002/gpio?gpio="+gpio+"&value="+value,
+  method: "GET",
+  success: function(Jdata) {
+	       
+  }, 
+  error: function() {
+    console.log("AJAX set_gpio ERROR!!!");
+  }
+});
+}
+
+//setInterval(update_info, 500);
+
+function update_info() {
+
+$.ajax({
+  url: "http://169.254.96.136:3002/sensor/temp",
+  method: "GET",
+  success: function(Jdata) {
+	  console.log(Jdata);  
+      $('#BTN1').html(Jdata.Sensor.BTN1);
+	  $('#BTN2').html(Jdata.Sensor.BTN2);	 
+  
+     if (Jdata.Sensor.BTN1=='1')
+	    document.getElementById('myImageBTN1').src='img/unpressed.png'
+	 else 
+	   document.getElementById('myImageBTN1').src='img/pressed.png'
+
+	  
+  }, 
+  error: function() {
+     console.log("AJAX update_info ERROR!!!");
+  }
+});
+ 
+}
+
+</script>
+
+</head>
+<body>
+
+
+
+<button onclick="light_on()">Turn on the light</button>	<!--點擊時(也就是onclick)啟動lighton函數-->
+
+<img id="myImage" src="img/pic_bulboff.gif" style="width:100px">
+<button onclick="light_off()">Turn off the light</button>
+<div>
+<img id="myImageBTN1" src="img/pressed.png" style="width:100px">
+<ul id="messages"></ul>
+<h4>BTN1: <span id="BTN1" style="font-size: 3rem;">1</span></h4>
+<h4>BTN2: <span id="BTN2" style="font-size: 3rem;">1</span></h4>
+
+<img id="target_img" src="" />
+</div>
+
+</body>
+<script>
+
+var client = false;
+
+function onConnect() {
+    // 用戶端連接成功後，才訂閱主題
+    console.log("onConnect successful and then subscribe topics");
+    client.subscribe("sensor/button1");
+	client.subscribe("sensor/pic3");
+}
+
+function onConnectFail() {
+  
+    console.log("Connect Fail");
+ 
+}
+
+
+// 收到訊息時...
+function onMessageArrived(message) {
+ 
+ console.log("onMessageArrived:"+message+message.payloadString);
+	msg=message.payloadString
+	if (msg=='1') {
+	    document.getElementById('myImageBTN1').src='img/unpressed.png'
+		document.getElementById('myImage').src='img/pic_bulbon.gif'
+	} else { 
+		document.getElementById('myImageBTN1').src='img/pressed.png'
+		document.getElementById('myImage').src='img/pic_bulboff.gif'
+    }
+	
+  //  $("#target_img").attr("src","data:image/gif;base64," + msg);
+
+
+}
+
+// 發佈訊息
+function publish_message(topic,message) {
+	
+    var message = new Paho.MQTT.Message(message);		//Paho是MQTT的套件
+    message.destinationName = topic 
+    client.send(message);
+
+}
+
+function init() {
+
+
+    client = new Paho.MQTT.Client("hq.ittraining.com.tw",3099,'1111');
+
+    // 指定收到訊息時的處理動作
+    client.onMessageArrived = onMessageArrived;
+
+    // 連接 MQTT broker
+    client.connect({onSuccess:onConnect, onFailure:onConnectFail});
+}
+window.addEventListener('load', init, false);
+//document.addEventListener('DOMContentLoaded', init, false);
+
+
+</script>
+</html>
+
