@@ -14,9 +14,9 @@ def close_socket(sig):
     sys.exit(1)
 
 def install_handler():
-    if 'win' in sys.platform :
-        import win32api     #win32qpi是windows作業系統底層提供的介面(也就是interface)，因此可使用作業系統得功能
-        win32api.SetConsoleCtrlHandler(close_socket, True)
+    if 'win' in sys.platform : #當作業系統為windows時
+        import win32api     #win32qpi是windows作業系統底層提供的介面(也就是interface)，因此可使用作業系統得功能 #若沒有找到module，就在cod打 pip install 
+        win32api.SetConsoleCtrlHandler(close_socket, True)  #開啟終端機comsole(也就是cmd)的中斷指令
     elif 'linux' in sys.platform :
         print('you may install crtl-C signal handler for Linux')   #在Linux中，crtl-C是中段     
 
