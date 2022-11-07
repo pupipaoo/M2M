@@ -4,7 +4,7 @@
 
 
 
-<button onclick="light_on()">Turn on the light</button>
+<button onclick="light_on()">Turn on the light</button>	<!--當按下按鈕時，呼叫light on公式-->
 
 <img id="myImage" src="img/pic_bulboff.gif" style="width:100px">
 <button onclick="light_off()">Turn off the light</button>
@@ -17,9 +17,9 @@
 
   <script type="text/javascript">
     
-   function light_on(){
+   function light_on(){	<!--抓取id為myImage"的物件，並換上新的屬性src,在img資料夾,叫pic_bulbon.gif的圖片-->
    
-     document.getElementById('myImage').src='img/pic_bulbon.gif'
+     document.getElementById('myImage').src='img/pic_bulbon.gif'	<!--docunemt是指這份網頁文件--><!--也可用$(#'myImage')attr("src","img/pic_bulbon.gif");
      set_gpio(27,1)
    
    }
