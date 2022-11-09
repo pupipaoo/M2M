@@ -100,11 +100,11 @@ function onConnectFail() {
 }
 
 
-// 收到訊息時...
+// 收到來自broker的Topic訊息時...
 function onMessageArrived(message) {
     console.log("onMessageArrived:"+message+message.payloadString);
 	msg=message.payloadString
-	if (msg=='1') {
+	if (msg=='1') {			//訊息為1時變更圖片
 	    document.getElementById('myImageBTN1').src='img/unpressed.png'
 		document.getElementById('myImage').src='img/pic_bulbon.gif'
 	} else { 
@@ -134,7 +134,7 @@ function publish_message() {
 function init() {
     document.getElementById("mqtt_pub").addEventListener('click', publish_message);
 
-    client = new Paho.MQTT.Client("hq.ittraining.com.tw",3099,'1111');
+    client = new Paho.MQTT.Client("hq.ittraining.com.tw",3099,'1111');			//(broker網址,broker德port,client名字)
 
     // 指定收到訊息時的處理動作
     client.onMessageArrived = onMessageArrived;
