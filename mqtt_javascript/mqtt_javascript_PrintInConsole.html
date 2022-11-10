@@ -33,14 +33,14 @@ function init() {
     document.getElementById("mqtt_pub").addEventListener('click', publish_message);     //addEventListener表示當"mqtt_pub"按鈕被按下去時要做啥事
     // 建立 MQTT 用戶端實體. 你必須正確寫上你設置的埠號.
     // ClientId 可以自行指定，提供 MQTT broker 認證用
-    client = new Paho.MQTT.Client("hq.ittraining.com.tw",3099,'po');    //'po'是可以自行寫的id
+    client = new Paho.MQTT.Client("hq.ittraining.com.tw",3099,'po');    //'po'是可以自行寫的id，使broker可以辨識在broker上的client
 
     // 指定收到訊息時的處理動作
-    client.onMessageArrived = onMessageArrived;
+    client.onMessageArrived = onMessageArrived;             //當訊息抵達時，呼叫onMessageArrived這個公式
 
     // 連接 MQTT broker
-    client.connect({onSuccess:onConnect});
-}
+    client.connect({onSuccess:onConnect});              //.connect的參數{onSuccess:onConnect}是Javascript的object資料，等同python的dictionary,也就是{key:value,key:value};整段代表當我連上成功時，呼叫onConnect這個公式
+}                                                           
 
 window.addEventListener('load', init, false);
 //document.addEventListener('DOMContentLoaded', init, false);
