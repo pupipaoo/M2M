@@ -9,7 +9,7 @@ var client = false;
 
 function onConnect() {
     // 用戶端連接成功後，才訂閱主題
-    console.log("onConnect then subscribe topic");
+    console.log("onConnect then subscribe topic");          //於console印出訊息
     client.subscribe(TOPIC + "/#");
 }
 
