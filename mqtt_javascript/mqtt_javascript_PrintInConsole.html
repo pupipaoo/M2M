@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <title>mqtt js client demo</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>       //這串是網路上的Library，在不能上網的環境，cdnjs也可以放在local主機(不過實際上因為要連MQTT，所以還是需要網路)
 <script>
 const TOPIC = "sensor/temp";
 var client = false;
@@ -30,7 +30,7 @@ function publish_message() {
 }
 
 function init() {
-    document.getElementById("mqtt_pub").addEventListener('click', publish_message);
+    document.getElementById("mqtt_pub").addEventListener('click', publish_message);     //addEventListener表示當"mqtt_pub"按鈕被按下去時要做啥事
     // 建立 MQTT 用戶端實體. 你必須正確寫上你設置的埠號.
     // ClientId 可以自行指定，提供 MQTT broker 認證用
     client = new Paho.MQTT.Client("hq.ittraining.com.tw",3099,'po');    //'po'是可以自行寫的id
@@ -55,7 +55,7 @@ mqtt client test...
 <button id="mqtt_pub">Publish</button>
 </div>
 
-<div id="mqtt_monitor">
+<div id="mqtt_monitor">     //接收從broker那裏來的訊息
 </div>
 
 
