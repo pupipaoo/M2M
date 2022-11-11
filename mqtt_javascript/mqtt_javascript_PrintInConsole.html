@@ -4,17 +4,21 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>       //這串是網路上的Library，在不能上網的環境，cdnjs也可以放在local主機(不過實際上因為要連MQTT，所以還是需要網路)
 <script>
-const TOPIC = "sensor/temp";
+const TOPIC = "sensor/temp";    //自己填Topic
 var client = false;
 
 function onConnect() {
     // 用戶端連接成功後，才訂閱Topic主題
-    console.log("onConnect then subscribe topic");          //於console印出訊息
+    console.log("onConnect then subscribe topic:"+TOPIC+"/#");          //於console印出訊息
     client.subscribe(TOPIC + "/#");                 //onconnect後訂閱Topic xxxx
 }
-
+function onConnectFail(){
+    console.log("Connect Fail")
+}
+    
+    
 // 收到訊息時...
-function onMessageArrived(message) {                //當訂閱Topic後，有訊息抵達時
+function onMessageArrived(message) {                //當訂閱Topic後，有訊息抵達時,呼叫這個公式
     console.log("onMessageArrived:"+message.payloadString);             //message.payloadString是指打印字串出來
     //如果要保留歷史訊息並呈現，把document.getElementById("mqtt_monitor").innerHTML = message.payloadString;和<div id="mqtt_monitor">註解掉，再加
     //msg=message.payloadString
