@@ -8,35 +8,35 @@ const TOPIC = "sensor/temp";
 var client = false;
 
 function onConnect() {
-    // 用戶端連接成功後，才訂閱主題
+    // 用戶端連接成功後，才訂閱Topic主題
     console.log("onConnect then subscribe topic");          //於console印出訊息
-    client.subscribe(TOPIC + "/#");
+    client.subscribe(TOPIC + "/#");                 //onconnect後訂閱Topic xxxx
 }
 
 // 收到訊息時...
-function onMessageArrived(message) {
-    console.log("onMessageArrived:"+message.payloadString);
-    document.getElementById("mqtt_monitor").innerHTML = message.payloadString;
+function onMessageArrived(message) {                //當訂閱Topic後，有訊息抵達時
+    console.log("onMessageArrived:"+message.payloadString);             //message.payloadString是指打印字串出來
+    document.getElementById("mqtt_monitor").innerHTML = message.payloadString;              //抓到id為"mqtt_monitor"的物件，透過innerHTML換字串
 }
 
 // 發佈訊息
 function publish_message() {
-    var input_text = document.getElementById("mqtt_text");
-    var payload = input_text.value;
-    var message = new Paho.MQTT.Message(payload);
-    message.destinationName = TOPIC ;
-    client.send(message);
-    input_text.value = '';
+    var input_text = document.getElementById("mqtt_text");          //抓id為"mqtt_text"的文字框，其內容賦予給input_text;也就是我打的內容給input_text
+    var payload = input_text.value;                         //我打的內容input_text 變成值，賦予給payload
+    var message = new Paho.MQTT.Message(payload);           //我打的內容再包裝成MQTT.Message，賦予給message，就像是裝進信封
+    message.destinationName = TOPIC ;                       //填我的發布Topic
+    client.send(message);                                   //送出我的訊息
+    input_text.value = '';                                  //送完後，清空文字框內容
 }
 
 function init() {
     document.getElementById("mqtt_pub").addEventListener('click', publish_message);     //addEventListener表示當"mqtt_pub"按鈕被按下去時要做啥事
     // 建立 MQTT 用戶端實體. 你必須正確寫上你設置的埠號.
     // ClientId 可以自行指定，提供 MQTT broker 認證用
-    client = new Paho.MQTT.Client("hq.ittraining.com.tw",3099,'po');    //'po'是可以自行寫的id，使broker可以辨識在broker上的client
+    client = new Paho.MQTT.Client("hq.ittraining.com.tw",3099,'po');    //'po'是可以自行寫的id，使broker可以辨識在broker上的client;3099是Port
 
     // 指定收到訊息時的處理動作
-    client.onMessageArrived = onMessageArrived;             //當訊息抵達時，呼叫onMessageArrived這個公式
+    client.onMessageArrived = onMessageArrived;             //訂閱Topic後,有訊息抵達時，呼叫onMessageArrived這個公式
 
     // 連接 MQTT broker
     client.connect({onSuccess:onConnect});              //.connect的參數{onSuccess:onConnect}是Javascript的object資料，等同python的dictionary,也就是{key:value,key:value};整段代表當我連上成功時，呼叫onConnect這個公式
