@@ -16,6 +16,9 @@ function onConnect() {
 // 收到訊息時...
 function onMessageArrived(message) {                //當訂閱Topic後，有訊息抵達時
     console.log("onMessageArrived:"+message.payloadString);             //message.payloadString是指打印字串出來
+    //如果要保留歷史訊息並呈現，把document.getElementById("mqtt_monitor").innerHTML = message.payloadString;和<div id="mqtt_monitor">註解掉，再加
+    //msg=message.payloadString
+    //$("#messages").append($("<li>").text(msg));
     document.getElementById("mqtt_monitor").innerHTML = message.payloadString;              //抓到id為"mqtt_monitor"的物件，透過innerHTML換字串
 }
 
@@ -54,7 +57,7 @@ mqtt client test...
 <input type="text" id="mqtt_text" />
 <button id="mqtt_pub">Publish</button>
 </div>
-
+//如果要保留歷史訊息並呈現，加<ul id="messages"></ul>
 <div id="mqtt_monitor">     //接收從broker那裏來的訊息
 </div>
 
