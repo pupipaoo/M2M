@@ -18,7 +18,7 @@ ISOTIMEFORMAT = '%y%m/%d %H:%M:%S'
 
 # 連線設定
 # 初始化地端程式
-client = mqtt.Client()
+client = mqtt.Client()          #利用MQTT套件產生CLIENT
 
 
 # 設定連線資訊(IP, Port, 連線時間)
