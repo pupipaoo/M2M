@@ -9,21 +9,21 @@ import paho.mqtt.client as mqtt
 
 # 當地端程式連線伺服器得到回應時，要做的動作
 def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+    print("Connected with result code "+str(rc))        #rc是指result 的code
 
     # 將訂閱主題寫在on_connet中
     # 如果我們失去連線或重新連線時 
     # 地端程式將會重新訂閱
-    client.subscribe("sensor/temp1")
+    client.subscribe("sensor/temp1")        #連上之後開始訂閱sensor/temp1
 
 # 當接收到從伺服器發送的訊息時要進行的動作
 def on_message(client, userdata, msg):
     # 轉換編碼utf-8才看得懂中文
-    print(msg.topic+" "+ msg.payload.decode('utf-8'))
+    print(msg.topic+" "+ msg.payload.decode('utf-8'))       #訊息所屬topic以及所送內容
 
 # 連線設定
 # 初始化地端程式
-client = mqtt.Client()
+client = mqtt.Client()      #利用MQTT套件產生CLIENT
 
 # 設定連線的動作
 client.on_connect = on_connect
@@ -39,4 +39,4 @@ client.connect("hq.ittraining.com.tw", 1883, 60)
 
 # 開始連線，執行設定的動作和處理重新連線問題
 # 也可以手動使用其他loop函式來進行連接
-client.loop_forever()
+client.loop_forever()       #連上之後就在背後運作
