@@ -24,17 +24,17 @@ client = mqtt.Client()
 # 設定連線資訊(IP, Port, 連線時間)
 client.connect("hq.ittraining.com.tw", 1883, 60)
 
-import base64
+import base64       #這是編碼器工具
 
 
-def encode_base64(file):
+def encode_base64(file):            #圖片是二禁制檔案
     # rb meaning open with read/binary mode
     with open(file, "rb") as f:
-        encoded_string = base64.b64encode(f.read())
+        encoded_string = base64.b64encode(f.read())         #將二進制字元用base64編碼成字串送出去
     #encoded_string.decode('utf-8')
-    return  encoded_string
+    return  encoded_string              #回傳經過function編碼後的字串
 
-img=encode_base64('lin.jpg')
+img=encode_base64('lin.jpg')        #將'lin.jpg'丟到function，得到編碼後過的圖檔字串
 client.publish("sensor/pic", img)
 
 
