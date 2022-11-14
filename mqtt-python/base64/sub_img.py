@@ -14,19 +14,18 @@ def on_connect(client, userdata, flags, rc):
     # 將訂閱主題寫在on_connet中
     # 如果我們失去連線或重新連線時 
     # 地端程式將會重新訂閱
-    client.subscribe("sensor/temp2")
     client.subscribe("sensor/pic")
 
 # 當接收到從伺服器發送的訊息時要進行的動作
 def on_message(client, userdata, msg):
 
-    if msg.topic=='sensor/pic':
+    if msg.topic=='sensor/pic':         #當收到來自'sensor/pic'的topic的訊息
         print('got image from sensor/pic')
         import base64
         import datetime
         filename=datetime.datetime.now().strftime("%Y%m%d-%H%M%S")+'.png'
-        with open(filename, "wb") as save_file:
-            save_file.write(base64.decodebytes(msg.payload))
+        with open(filename, "wb") as save_file:         
+            save_file.write(base64.decodebytes(msg.payload))        #解碼收到的訊息，並寫進去
     else:
         # 轉換編碼utf-8才看得懂中文
         print(msg.topic+" "+ msg.payload.decode('utf-8'))
