@@ -7,7 +7,7 @@ pip install paho-mqtt
 @author: joseph
 """
 
-import paho.mqtt.client as mqtt
+import paho.mqtt.client as mqtt  #讓電腦可以走mqtt協定
 import random
 import json  
 import datetime 
